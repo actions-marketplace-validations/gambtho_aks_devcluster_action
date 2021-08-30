@@ -33,6 +33,7 @@ ARM_TENANT_ID: ******
 * `ARM_CLIENT_SECRET` ***required***
 * `ARM_SUBSCRIPTION_ID` ***required***
 * `ARM_TENANT_ID` ***required***
+* `ACTION_TYPE` ***required***
 
 
 ## Example usage
@@ -47,7 +48,6 @@ with:
   ARM_TENANT_ID: ******
 ```
 
-Full deployment workflow showing this action in use - https://github.com/gambtho/go_echo
 
 ## References
 

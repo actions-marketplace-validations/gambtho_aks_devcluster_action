@@ -23,6 +23,10 @@ inputs:
   CLUSTER_NAME:
     description: 'Name for cluster'
     required: true
+  ACTION_TYPE:
+    description: "Create or destroy"
+    required: false
+    default: "Create"
 runs:
   using: 'docker'
   image: 'Dockerfile'
