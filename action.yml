@@ -1,0 +1,35 @@
+# action.yml
+name: 'AKS Create Dev Cluster Action'
+description: 'Create a Development AKS Cluster'
+branding:
+  icon: anchor
+  color: blue
+inputs:
+  ARM_CLIENT_ID:  # id of input
+    description: 'Client ID for Service Principal'
+    required: true
+  ARM_CLIENT_SECRET:  # id of input
+    description: 'Client Secret for Service Principal'
+    required: true
+  ARM_SUBSCRIPTION_ID:  # id of input
+    description: 'Subscription for Service Principal'
+    required: true
+  ARM_TENANT_ID:  # id of input
+    description: 'Tenant for Service Principal'
+    required: true
+  RESOURCE_GROUP_NAME:  # id of input
+    description: 'Resource Group for cluster'
+    required: true
+  CLUSTER_NAME:
+    description: 'Name for cluster'
+    required: true
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+  args:
+    - ${{ inputs.ARM_CLIENT_ID }}
+    - ${{ inputs.ARM_CLIENT_SECRET }}
+    - ${{ inputs.ARM_SUBSCRIPTION_ID }}
+    - ${{ inputs.ARM_TENANT_ID }}
+    - ${{ inputs.RESOURCE_GROUP_NAME }}
+    - ${{ inputs.CLUSTER_NAME }}
