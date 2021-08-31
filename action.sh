@@ -40,7 +40,7 @@ else
     echo "Create Azure Kubernetes Service Cluster"
     echo "*******************"
 
-    az aks create --resource-group $RESOURCE_GROUP_NAME --name $CLUSTER_NAME --node-vm-size Standard_DS2_v2 --node-osdisk-size 150 --node-count 2 --node-osdisk-type Ephemeral  --generate-ssh-keys --enable-managed-identity --attach-acr $CLUSTER_NAME
+    az aks create --resource-group $RESOURCE_GROUP_NAME --name $CLUSTER_NAME --node-vm-size Standard_DS3_v2 --node-osdisk-size 150 --node-count 2 --node-osdisk-type Ephemeral  --generate-ssh-keys --enable-managed-identity --attach-acr $CLUSTER_NAME
 fi
 
 
