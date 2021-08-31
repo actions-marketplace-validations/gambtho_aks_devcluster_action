@@ -35,7 +35,7 @@ else
     echo "*******************"
 
     az acr create --resource-group $RESOURCE_GROUP_NAME --name $CLUSTER_NAME --sku Basic
-    resourceID=$(az acr show --resource-group myResourceGroup --name myContainerRegistry --query id --output tsv)
+    # resourceID=$(az acr show --resource-group myResourceGroup --name myContainerRegistry --query id --output tsv)
 
     echo "*******************"
     echo "Create Azure Kubernetes Service Cluster"
