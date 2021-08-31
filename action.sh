@@ -1,4 +1,4 @@
-#!/bin/sh -l
+#!/bin/bash -l
 
 set -e
 
@@ -13,12 +13,16 @@ export RESOURCE_GROUP_NAME=$INPUT_RESOURCE_GROUP_NAME
 export ACTION_TYPE=$INPUT_ACTION_TYPE
 
 echo "*******************"
+echo "Cluster Name is $CLUSTER_NAME"
+echo "*******************"
+
+echo "*******************"
 echo "Use Service Principal to Login to Azure"
 echo "*******************"
 
 az login --service-principal -u ${ARM_CLIENT_ID} -p ${ARM_CLIENT_SECRET} --tenant ${ARM_TENANT_ID}
 
-if [ $ACTION_TYPE == "destroy" ]
+if [[ $INPUT_ACTION_TYPE == "destroy" ]]
 then
     echo "*******************"
     echo "Removing Cluster and Registry"
@@ -36,5 +40,5 @@ else
     echo "Create Azure Kubernetes Service Cluster"
     echo "*******************"
 
-    az aks create --resource-group $RESOURCE_GROUP_NAME --name $CLUSTER_NAME --node-count 1 --generate-ssh-keys
+    az aks create --resource-group $RESOURCE_GROUP_NAME --name $CLUSTER_NAME --node-count 2 --generate-ssh-keys --attach-acr $CLUSTER_NAME
 fi

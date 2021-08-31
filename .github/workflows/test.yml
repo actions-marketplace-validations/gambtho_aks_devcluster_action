@@ -10,35 +10,35 @@ jobs:
       INPUT_ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
       INPUT_ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
       INPUT_RESOURCE_GROUP_NAME: ${{ secrets.RESOURCE_GROUP_NAME }}
-      INPUT_CLUSTER_NAME: ${{ secrets.RESOURCE_GROUP_NAME }}deploy${{ github.sha }}
     runs-on: ubuntu-latest
     steps:
+      - name: Get current date
+        id: date
+        run: echo "::set-output name=date::$(date +'%H%M%S')"
       - uses: actions/checkout@v2
       - name: "Deploy cluster"
-        run: ./action.sh
+        run: export INPUT_CLUSTER_NAME=${{ steps.date.outputs.date }}${{ secrets.RESOURCE_GROUP_NAME }}deploy && ./action.sh
       - name: "Delete cluster"
-        run: export INPUT_ACTION_TYPE="destroy" && ./action.sh  
+        run: export INPUT_ACTION_TYPE="destroy" && export INPUT_CLUSTER_NAME=${{ steps.date.outputs.date }}${{ secrets.RESOURCE_GROUP_NAME }}deploy && ./action.sh  
   validate_action:
     name: "Validate action"
     concurrency: action
     runs-on: ubuntu-latest
     steps:
+      - name: Get current date
+        id: date
+        run: echo "::set-output name=date::$(date +'%H%M%S')"
       - uses: gambtho/aks_devcluster_action@main
         with:
-          CLUSTER_NAME: ${{ secrets.RESOURCE_GROUP_NAME }}validate${{ github.sha }}
+          CLUSTER_NAME: ${{ steps.date.outputs.date }}${{ secrets.RESOURCE_GROUP_NAME }}validate
           RESOURCE_GROUP_NAME: ${{ secrets.RESOURCE_GROUP_NAME }}
           ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
           ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
           ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
           ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
-  cleanup_action:
-    name: "Clean-up action"
-    concurrency: action
-    runs-on: ubuntu-latest
-    steps:
       - uses: gambtho/aks_devcluster_action@main
         with:
-          CLUSTER_NAME: ${{ secrets.RESOURCE_GROUP_NAME }}validate${{ github.sha }}
+          CLUSTER_NAME: ${{ steps.date.outputs.date }}${{ secrets.RESOURCE_GROUP_NAME }}validate
           RESOURCE_GROUP_NAME: ${{ secrets.RESOURCE_GROUP_NAME }}
           ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
           ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
